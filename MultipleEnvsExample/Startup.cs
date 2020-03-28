@@ -7,30 +7,42 @@ namespace MultipleEnvsExample
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+         private readonly IHostEnvironment _env;
+        public Startup(IConfiguration configuration, IHostEnvironment env)
         {
             Configuration = configuration;
+            _env = env;
         }
 
         public IConfiguration Configuration { get; }
 
+        public void ConfigureDevelopmentServices(IServiceCollection services)
+        {
+            SharedConfigureServices(services);
+        }
         public void ConfigureServices(IServiceCollection services)
         {
+            SharedConfigureServices(services);
+        }
+        public void SharedConfigureServices(IServiceCollection services){
             services.AddControllersWithViews();
         }
 
-        public void Configure(IApplicationBuilder app, IHostEnvironment env)
+        public void ConfigureDevelopment(IApplicationBuilder app)
         {
-            if (env.IsEnvironment("Development"))
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
-            }
+            app.UseDeveloperExceptionPage();
+            SharedConfigure(app);
+        }
 
+        public void Configure(IApplicationBuilder app)
+        {
+           app.UseExceptionHandler("/Home/Error");
+           app.UseHsts();
+           SharedConfigure(app);
+        }
+
+        public void SharedConfigure(IApplicationBuilder app)
+        {
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
