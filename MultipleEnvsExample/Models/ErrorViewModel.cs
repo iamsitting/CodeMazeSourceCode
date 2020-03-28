@@ -1,5 +1,3 @@
-using System;
-
 namespace MultipleEnvsExample.Models
 {
     public class ErrorViewModel

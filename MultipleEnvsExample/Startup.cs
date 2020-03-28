@@ -20,8 +20,7 @@ namespace MultipleEnvsExample
 
         public void Configure(IApplicationBuilder app)
         {
-            app.UseExceptionHandler("/Home/Error");
-            app.UseHsts();
+            app.UseDeveloperExceptionPage();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
