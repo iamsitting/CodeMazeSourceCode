@@ -16,6 +16,9 @@ namespace MultipleEnvsExample
 
         public IConfiguration Configuration { get; }
 
+        public void SharedConfigureServices(IServiceCollection services){
+            services.AddControllersWithViews();
+        }
         public void ConfigureDevelopmentServices(IServiceCollection services)
         {
             SharedConfigureServices(services);
@@ -23,22 +26,6 @@ namespace MultipleEnvsExample
         public void ConfigureServices(IServiceCollection services)
         {
             SharedConfigureServices(services);
-        }
-        public void SharedConfigureServices(IServiceCollection services){
-            services.AddControllersWithViews();
-        }
-
-        public void ConfigureDevelopment(IApplicationBuilder app)
-        {
-            app.UseDeveloperExceptionPage();
-            SharedConfigure(app);
-        }
-
-        public void Configure(IApplicationBuilder app)
-        {
-           app.UseExceptionHandler("/Home/Error");
-           app.UseHsts();
-           SharedConfigure(app);
         }
 
         public void SharedConfigure(IApplicationBuilder app)
@@ -56,6 +43,18 @@ namespace MultipleEnvsExample
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+        public void ConfigureDevelopment(IApplicationBuilder app)
+        {
+            app.UseDeveloperExceptionPage();
+            SharedConfigure(app);
+        }
+
+        public void Configure(IApplicationBuilder app)
+        {
+           app.UseExceptionHandler("/Home/Error");
+           app.UseHsts();
+           SharedConfigure(app);
         }
     }
 }
