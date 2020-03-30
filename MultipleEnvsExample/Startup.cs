@@ -7,11 +7,9 @@ namespace MultipleEnvsExample
 {
     public class Startup
     {
-         private readonly IHostEnvironment _env;
-        public Startup(IConfiguration configuration, IHostEnvironment env)
+        public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            _env = env;
         }
 
         public IConfiguration Configuration { get; }
