@@ -11,9 +11,11 @@ namespace MongoDbExample.Controllers
     public class StudentsController : ControllerBase
     {
         private readonly StudentService _studentService;
-        public StudentsController(StudentService service)
+        private readonly CourseService _courseService;
+        public StudentsController(StudentService sService, CourseService cService)
         {
-            _studentService = service;
+            _studentService = sService;
+            _courseService = cService;
         }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Student>>> GetAll()
@@ -28,6 +30,17 @@ namespace MongoDbExample.Controllers
             if (student == null)
             {
                 return NotFound();
+            }
+            if (student.Courses.Count > 0)
+            {
+                var tempList = new List<Course>();
+                foreach (var courseId in student.Courses)
+                {
+                    var course = await _courseService.GetByIdAsync(courseId);
+                    if (course != null)
+                        tempList.Add(course);
+                }
+                student.CourseList = tempList;
             }
             return Ok(student);
         }
