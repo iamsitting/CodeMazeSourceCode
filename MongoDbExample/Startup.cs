@@ -9,7 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
+using MongoDbExample.Models;
 
 namespace MongoDbExample
 {
@@ -25,6 +27,11 @@ namespace MongoDbExample
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<SchoolDatabaseSettings>(
+                Configuration.GetSection(nameof(SchoolDatabaseSettings)));
+
+            services.AddSingleton<SchoolDatabaseSettings>(provider =>
+                provider.GetRequiredService<IOptions<SchoolDatabaseSettings>>().Value);
             services.AddControllers();
         }
 
