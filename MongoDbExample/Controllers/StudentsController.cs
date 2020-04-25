@@ -45,6 +45,10 @@ namespace MongoDbExample.Controllers
         [HttpPut("{id:length(24)}")]
         public async Task<IActionResult> Update(string id, Student updatedStudent)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
             var queriedStudent = await _studentService.GetByIdAsync(id);
             if(queriedStudent == null)
             {
