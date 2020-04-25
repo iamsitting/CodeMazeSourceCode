@@ -34,6 +34,10 @@ namespace MongoDbExample.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Student student)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model object");
+            }
             await _studentService.CreateAsync(student);
             return Ok(student);
         }
