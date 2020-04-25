@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using MongoDbExample.Models;
+using MongoDbExample.Services;
 
 namespace MongoDbExample
 {
@@ -32,6 +33,9 @@ namespace MongoDbExample
 
             services.AddSingleton<SchoolDatabaseSettings>(provider =>
                 provider.GetRequiredService<IOptions<SchoolDatabaseSettings>>().Value);
+
+            services.AddSingleton<StudentService>();
+            services.AddSingleton<CourseService>();
             services.AddControllers();
         }
 

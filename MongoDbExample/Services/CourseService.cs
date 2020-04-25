@@ -14,24 +14,24 @@ namespace MongoDbExample.Services
             var database = client.GetDatabase(settings.DatabaseName);
             _courses = database.GetCollection<Course>(settings.CoursesCollectionName);
         }
-        public async Task<List<Course>> GetAll()
+        public async Task<List<Course>> GetAllAsync()
         {
             return await _courses.Find(s => true).ToListAsync();
         }
-        public async Task<Course> GetById(string id)
+        public async Task<Course> GetByIdAsync(string id)
         {
             return await _courses.Find<Course>(c => c.Id == id).FirstOrDefaultAsync();
         }
-        public async Task<Course> Create(Course course)
+        public async Task<Course> CreateAsync(Course course)
         {
             await _courses.InsertOneAsync(course);
             return course;
         }
-        public async Task Update(string id, Course course)
+        public async Task UpdateAsync(string id, Course course)
         {
             await _courses.ReplaceOneAsync(c => c.Id == id, course);
         }
-        public async Task Remove(string id)
+        public async Task DeleteAsync(string id)
         {
             await _courses.DeleteOneAsync(c => c.Id == id);
         }
