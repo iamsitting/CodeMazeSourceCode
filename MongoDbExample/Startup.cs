@@ -31,7 +31,7 @@ namespace MongoDbExample
             services.Configure<SchoolDatabaseSettings>(
                 Configuration.GetSection(nameof(SchoolDatabaseSettings)));
 
-            services.AddSingleton<SchoolDatabaseSettings>(provider =>
+            services.AddSingleton<ISchoolDatabaseSettings>(provider =>
                 provider.GetRequiredService<IOptions<SchoolDatabaseSettings>>().Value);
 
             services.AddSingleton<StudentService>();
