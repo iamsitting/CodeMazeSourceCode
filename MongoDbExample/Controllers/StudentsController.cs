@@ -23,7 +23,7 @@ namespace MongoDbExample.Controllers
             var students = await _studentService.GetAllAsync();
             return Ok(students);
         }
-        [HttpGet("{id:length(24)}")]
+        [HttpGet]
         public async Task<ActionResult<Student>> GetById(string id)
         {
             var student = await _studentService.GetByIdAsync(id);
@@ -49,13 +49,13 @@ namespace MongoDbExample.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest("Invalid model object");
+                return BadRequest();
             }
             await _studentService.CreateAsync(student);
             return Ok(student);
         }
 
-        [HttpPut("{id:length(24)}")]
+        [HttpPut]
         public async Task<IActionResult> Update(string id, Student updatedStudent)
         {
             if (!ModelState.IsValid)
