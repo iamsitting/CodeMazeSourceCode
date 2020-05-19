@@ -60,7 +60,7 @@ namespace MongoDbExample.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest("Invalid model object");
+                return BadRequest();
             }
             var queriedStudent = await _studentService.GetByIdAsync(id);
             if(queriedStudent == null)
@@ -70,7 +70,7 @@ namespace MongoDbExample.Controllers
             await _studentService.UpdateAsync(id, updatedStudent);
             return NoContent();
         }
-        [HttpDelete("{id:length(24)}")]
+        [HttpDelete]
         public async Task<IActionResult> Delete(string id)
         {
             var student = await _studentService.GetByIdAsync(id);
