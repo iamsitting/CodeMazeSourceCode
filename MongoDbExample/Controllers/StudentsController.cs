@@ -23,7 +23,7 @@ namespace MongoDbExample.Controllers
             var students = await _studentService.GetAllAsync();
             return Ok(students);
         }
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Student>> GetById(string id)
         {
             var student = await _studentService.GetByIdAsync(id);
@@ -31,7 +31,7 @@ namespace MongoDbExample.Controllers
             {
                 return NotFound();
             }
-            if (student.Courses.Count > 0)
+            if (student.Courses != null && student.Courses.Count > 0)
             {
                 var tempList = new List<Course>();
                 foreach (var courseId in student.Courses)
