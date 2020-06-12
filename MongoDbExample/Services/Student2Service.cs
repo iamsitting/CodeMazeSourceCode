@@ -22,25 +22,29 @@ namespace MongoDbExample.Services
 
         public override Task<GetStudentResponse> GetStudent(GetStudentRequest request, ServerCallContext context)
         {
-            if(String.IsNullOrEmpty(request.Id))
+            Console.WriteLine(request.Id);
+            Console.WriteLine(request.ToString());
+            if(request.Id != null)
             {
                 var task = _studentService.GetByIdAsync(request.Id);
                 task.Wait();
                 Models.Student student = task.Result;
                 Student s = new Student(){
+                    Id = student.Id,
                     FirstName = student.FirstName,
                     LastName = student.LastName,
-                    Major = student.Major
+                    Major = student.Major,
                 };
-                return Task.FromResult(new GetStudentResponse()
+                return Task.FromResult(new GetStudentResponse
                 {
                     Student = s
                 });
+            } else {
+                return Task.FromResult(new GetStudentResponse
+                {
+                    Error = "ID is null or empty"
+                });
             }
-            return Task.FromResult(new GetStudentResponse
-            {
-                Error = "ID is null or empty"
-            });
         }
     }
 }
