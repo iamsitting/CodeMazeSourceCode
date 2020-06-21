@@ -1,16 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Logging;
 using MongoDbExample.Models;
 using MongoDbExample.Services;
 
@@ -37,6 +32,14 @@ namespace MongoDbExample
             services.AddSingleton<StudentService>();
             services.AddSingleton<CourseService>();
             services.AddGrpc();
+            services.AddCors(o => o.AddPolicy("AllowAll", builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .WithExposedHeaders("Grpc-Status", "Grpc-Message", "Grpc-Encoding", "Grpc-Accept-Encoding");
+            }));
+            services.AddAutoMapper(typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,10 +51,22 @@ namespace MongoDbExample
             }
 
             app.UseRouting();
+            app.UseGrpcWeb();
+            // Add after existing UseGrpcWeb
+            app.Use((c, next) =>
+            {
+                if (c.Request.ContentType == "application/grpc-web-text")
+                {
+                    var current = c.Features.Get<IHttpResponseFeature>();
+                    c.Features.Set<IHttpResponseFeature>(new HttpSysWorkaroundHttpResponseFeature(current));
+                }
+                return next();
+            });
+            app.UseCors();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<Student2Service>();
+                endpoints.MapGrpcService<Student2Service>().EnableGrpcWeb().RequireCors("AllowAll");
                 // endpoints.MapControllers();
             });
         }

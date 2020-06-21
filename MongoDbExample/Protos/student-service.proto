@@ -6,17 +6,17 @@ option csharp_namespace = "StudentGrpcService";
 // The package specifier prevents name clashes between protocol message types.
 package students;
 
+message Course {
+    string id = 1;
+    string name = 2;
+    string code = 3;
+}
+
 message Student {
     string id = 1;
     string firstName = 2;
     string lastName = 3;
     string major = 4;
-
-    message Course {
-        string id = 1;
-        string name = 2;
-        string code = 3;
-    }
     repeated Course courses = 5;
 }
 

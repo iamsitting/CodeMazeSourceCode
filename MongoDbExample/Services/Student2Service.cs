@@ -1,3 +1,4 @@
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,31 +14,25 @@ namespace MongoDbExample.Services
         private readonly ILogger<Student2Service> _logger;
         private readonly StudentService _studentService;
         private readonly CourseService _courseService;
-        public Student2Service(ILogger<Student2Service> logger, StudentService sService, CourseService cService)
+        private readonly IMapper _mapper;
+        public Student2Service(ILogger<Student2Service> logger, StudentService sService, CourseService cService,
+        IMapper mapper)
         {
             _logger = logger;
             _studentService = sService;
             _courseService = cService;
+            _mapper = mapper;
         }
 
         public override Task<GetStudentResponse> GetStudent(GetStudentRequest request, ServerCallContext context)
         {
-            Console.WriteLine(request.Id);
-            Console.WriteLine(request.ToString());
             if(request.Id != null)
             {
-                var task = _studentService.GetByIdAsync(request.Id);
+                var task = _studentService.GetByIdWithCoursesAsync(request.Id);
                 task.Wait();
-                Models.Student student = task.Result;
-                Student s = new Student(){
-                    Id = student.Id,
-                    FirstName = student.FirstName,
-                    LastName = student.LastName,
-                    Major = student.Major,
-                };
                 return Task.FromResult(new GetStudentResponse
                 {
-                    Student = s
+                    Student = _mapper.Map<Student>(task.Result)
                 });
             } else {
                 return Task.FromResult(new GetStudentResponse

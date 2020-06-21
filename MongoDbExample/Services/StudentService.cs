@@ -8,11 +8,13 @@ namespace MongoDbExample.Services
     public class StudentService
     {
         private readonly IMongoCollection<Student> _students;
+        private readonly IMongoCollection<Course> _courses;
         public StudentService(ISchoolDatabaseSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
             _students = database.GetCollection<Student>(settings.StudentsCollectionName);
+            _courses = database.GetCollection<Course>(settings.CoursesCollectionName);
         }
         public async Task<List<Student>> GetAllAsync()
         {
@@ -21,6 +23,15 @@ namespace MongoDbExample.Services
         public async Task<Student> GetByIdAsync(string id)
         {
             return await _students.Find<Student>(s => s.Id == id).FirstOrDefaultAsync();
+        }
+        public async Task<Student> GetByIdWithCoursesAsync(string id)
+        {
+            var student = await GetByIdAsync(id);
+            if (student.Courses != null && student.Courses.Count > 0)
+            {
+                student.CourseList = await _courses.Find<Course>(c => student.Courses.Contains(c.Id)).ToListAsync();
+            }
+            return student;
         }
         public async Task<Student> CreateAsync(Student student)
         {
