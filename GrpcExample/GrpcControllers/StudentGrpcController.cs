@@ -10,13 +10,10 @@ namespace GrpcExample.GrpcControllers
 {
     public class StudentGrpcController : StudentService.StudentServiceBase
     {
-        private readonly ILogger<StudentGrpcController> _logger;
         private readonly StudentDataAccess _students;
         private readonly IMapper _mapper;
-        public StudentGrpcController(ILogger<StudentGrpcController> logger, StudentDataAccess students,
-        IMapper mapper)
+        public StudentGrpcController(StudentDataAccess students, IMapper mapper)
         {
-            _logger = logger;
             _students = students;
             _mapper = mapper;
         }
