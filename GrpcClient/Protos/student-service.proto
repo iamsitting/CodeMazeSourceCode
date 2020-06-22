@@ -3,9 +3,6 @@ syntax = "proto3";
 //  the C# namespace where the interface will be implemented into
 option csharp_namespace = "StudentGrpcService";
 
-// The package specifier prevents name clashes between protocol message types.
-package grpcExample;
-
 message Course {
     string id = 1;
     string name = 2;
