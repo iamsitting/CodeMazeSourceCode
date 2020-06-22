@@ -13,7 +13,7 @@ namespace GrpcClient
                 "System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
 
             using var channel = GrpcChannel.ForAddress("http://localhost:5000");
-            var client = new Students.StudentsClient(channel);
+            var client = new StudentService.StudentServiceClient(channel);
             while(true)
             {
                 Console.WriteLine("Enter an argument");

@@ -17,7 +17,7 @@ message Student {
     repeated Course courses = 5;
 }
 
-service Students {
+service StudentService {
     rpc GetStudent(GetStudentRequest) returns (GetStudentResponse);
     rpc GetStudents(GetStudentsResponse) returns (GetStudentsResponse);
     rpc CreateOrUpdateStudent (CreateOrUpdateStudentRequest) returns (CreateOrUpdateStudentResponse);

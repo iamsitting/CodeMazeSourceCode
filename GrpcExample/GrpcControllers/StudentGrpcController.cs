@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GrpcExample.GrpcControllers
 {
-    public class StudentGrpcController : Students.StudentsBase
+    public class StudentGrpcController : StudentService.StudentServiceBase
     {
         private readonly ILogger<StudentGrpcController> _logger;
         private readonly StudentDataAccess _students;
