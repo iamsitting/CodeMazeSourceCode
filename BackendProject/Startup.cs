@@ -29,7 +29,7 @@ namespace BackendProject
             services.AddControllersWithViews();
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "FrontendProject/frontend-project/dist/frontend-project";
+                configuration.RootPath = "frontend-project/dist/frontend-project";
             });
         }
 
@@ -64,7 +64,7 @@ namespace BackendProject
 
             app.UseSpa(spa =>
             {
-                spa.Options.SourcePath = "FrontendProject/frontend-project";
+                spa.Options.SourcePath = "frontend-project";
             });
         }
     }
