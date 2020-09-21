@@ -7,23 +7,23 @@ namespace SmsProject.Services
 {
     public class TwilioClient : ITwilioRestClient
     {
-        private readonly ITwilioRestClient _innerClient;
+        private readonly ITwilioRestClient _client;
 
-        public TwilioClient(IConfiguration config, System.Net.Http.HttpClient httpClient)
+        public TwilioClient(IConfiguration config, System.Net.Http.HttpClient client)
         {
-            // customize the underlying HttpClient
-            httpClient.DefaultRequestHeaders.Add("X-Custom-Header", "CustomTwilioRestClient-Demo");
+            // customize
+            httpClient.DefaultRequestHeaders.Add("X-Custom-Header", "Twilio-SmsProject");
 
-            _innerClient = new TwilioRestClient(
+            _client = new TwilioRestClient(
                 config["Twilio:AccountSid"],
                 config["Twilio:AuthToken"],
-                httpClient: new SystemNetHttpClient(httpClient));
+                httpClient: new SystemNetHttpClient(client));
         }
 
-        public Response Request(Request request) => _innerClient.Request(request);
-        public Task<Response> RequestAsync(Request request) => _innerClient.RequestAsync(request);
-        public string AccountSid => _innerClient.AccountSid;
-        public string Region => _innerClient.Region;
-        public Twilio.Http.HttpClient HttpClient => _innerClient.HttpClient;
+        public Response Request(Request request) => _client.Request(request);
+        public Task<Response> RequestAsync(Request request) => _client.RequestAsync(request);
+        public string AccountSid => _client.AccountSid;
+        public string Region => _client.Region;
+        public Twilio.Http.HttpClient HttpClient => _client.HttpClient;
     }
 }
