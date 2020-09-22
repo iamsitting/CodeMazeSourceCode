@@ -12,7 +12,7 @@ namespace SmsProject.Services
         public TwilioClient(IConfiguration config, System.Net.Http.HttpClient client)
         {
             // customize
-            httpClient.DefaultRequestHeaders.Add("X-Custom-Header", "Twilio-SmsProject");
+            client.DefaultRequestHeaders.Add("X-Custom-Header", "Twilio-SmsProject");
 
             _client = new TwilioRestClient(
                 config["Twilio:AccountSid"],
