@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Twilio.Clients;
 using Twilio.Http;
+using SystemHttpClient = System.Net.Http.HttpClient;
 
 namespace SmsProject.Services
 {
@@ -9,7 +10,7 @@ namespace SmsProject.Services
     {
         private readonly ITwilioRestClient _client;
 
-        public TwilioClient(IConfiguration config, System.Net.Http.HttpClient client)
+        public TwilioClient(IConfiguration config, SystemHttpClient client)
         {
             // customize
             client.DefaultRequestHeaders.Add("X-Custom-Header", "Twilio-SmsProject");

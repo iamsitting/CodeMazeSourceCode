@@ -20,7 +20,7 @@ namespace SmsProject.Controllers
             _client = client;
         }
 
-        [HttpPost("send")]
+        [HttpGet]
         public IActionResult SendSms(SmsMessage model)
         {
             var message = MessageResource.Create(
@@ -29,10 +29,10 @@ namespace SmsProject.Controllers
                 body: model.Message,
                 client: _client); // pass in the custom client
 
-            return Ok("Success");
+            return Ok();
         }
 
-        [HttpPost("receive")]
+        [HttpPost]
         public TwiMLResult ReceiveSms([FromForm] SmsRequest incomingMessage)
         {
             var messagingResponse = new MessagingResponse();
