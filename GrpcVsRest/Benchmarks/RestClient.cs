@@ -14,8 +14,8 @@ namespace GrpcVsRest
         {
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            var payload = new RequestBody(){Id="5eeffdd1a28671a6e62dbda2"};
-            var response = await client.PostAsJsonAsync("https://localhost:6001/api/studentapi", payload);
+            var payload = new RequestBody(){Id="5fe3a38292267c002b8a376c"};
+            var response = await client.PostAsJsonAsync("http://localhost:6000/api/studentapi", payload);
             return await response.Content.ReadAsStringAsync();
         }
     }

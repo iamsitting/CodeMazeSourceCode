@@ -23,7 +23,7 @@ namespace GrpcVsRest
         {
             // return (await client.GetVersionAsync(new EmptyRequest())).ApiVersion;
             return (await client.GetStudentAsync(
-                    new GetStudentRequest (){Id = "5eeffdd1a28671a6e62dbda2"}
+                    new GetStudentRequest (){Id = "5fe3a38292267c002b8a376c"}
                 )).Student;
         }
 
