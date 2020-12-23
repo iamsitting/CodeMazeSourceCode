@@ -6,12 +6,12 @@ using SharedLibrary.Grpc;
 
 namespace GrpcVsRest
 {
-    public class GRPCClient
+    public class GrpcClient
     {
         private readonly GrpcChannel channel;
         private readonly StudentService.StudentServiceClient client;
 
-        public GRPCClient()
+        public GrpcClient()
         {
             AppContext.SetSwitch(
                 "System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);

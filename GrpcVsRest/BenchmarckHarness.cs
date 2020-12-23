@@ -11,7 +11,7 @@ namespace GrpcVsRest
         public int IterationCount;
 
         readonly RestClient restClient = new RestClient();
-        readonly GRPCClient grpcClient = new GRPCClient();
+        readonly GrpcClient grpcClient = new GrpcClient();
 
         [Benchmark]
         public async Task RestGetSmallPayloadAsync()
