@@ -1,12 +1,12 @@
 using BenchmarkDotNet.Running;
 
-namespace Simple
+namespace SimpleProject
 {
 	public class Program
 	{
 		public static void Main(string[] args)
 		{
-			var summary = BenchmarkRunner.Run<SimpleBenchmark>();
+			var summary = BenchmarkRunner.Run<BottleneckProcessBenchmark>();
 		}
 	}
 }
