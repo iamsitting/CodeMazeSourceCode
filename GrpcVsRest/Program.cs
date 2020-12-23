@@ -1,6 +1,6 @@
 using BenchmarkDotNet.Running;
 using System;
-namespace RESTvsGRPC
+namespace GrpcVsRest
 {
     class Program
     {

@@ -7,8 +7,8 @@ namespace RestBackend.Profiles
     {
         public StudentProfile()
         {
-            CreateMap<Course, StudentGrpcService.Course>();
-            CreateMap<Student, StudentGrpcService.Student>()
+            CreateMap<SharedLibrary.Data.Course, SharedLibrary.Grpc.Course>();
+            CreateMap<SharedLibrary.Data.Student, SharedLibrary.Grpc.Student>()
                 .ForMember(dest => dest.Courses, opt => opt.MapFrom(src => src.CourseList));
         }
     }

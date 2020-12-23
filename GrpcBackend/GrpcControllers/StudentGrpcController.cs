@@ -1,14 +1,13 @@
 using AutoMapper;
 using Grpc.Core;
-using Microsoft.Extensions.Logging;
 using SharedLibrary.Data;
-using SharedLibrary.GRPC;
+using SharedGRPC = SharedLibrary.Grpc;
 using System;
 using System.Threading.Tasks;
 
 namespace GrpcBackend.GrpcControllers
 {
-    public class StudentGrpcController : StudentService.StudentServiceBase
+    public class StudentGrpcController : SharedGRPC.StudentService.StudentServiceBase
     {
         private readonly StudentDataAccess _students;
         private readonly IMapper _mapper;
@@ -18,21 +17,21 @@ namespace GrpcBackend.GrpcControllers
             _mapper = mapper;
         }
 
-        public override async Task<GetStudentResponse> GetStudent(GetStudentRequest request, ServerCallContext context)
+        public override async Task<SharedGRPC.GetStudentResponse> GetStudent(SharedGRPC.GetStudentRequest request, ServerCallContext context)
         {
             try
             {
                 if (request.Id != null)
                 {
                     var student = await _students.GetByIdWithCoursesAsync(request.Id);
-                    return new GetStudentResponse
+                    return new SharedGRPC.GetStudentResponse
                     {
-                        Student = _mapper.Map<Student>(student)
+                        Student = _mapper.Map<SharedGRPC.Student>(student)
                     };
                 }
                 else
                 {
-                    return new GetStudentResponse
+                    return new SharedGRPC.GetStudentResponse
                     {
                         Error = "ID is null or empty"
                     };
@@ -40,7 +39,7 @@ namespace GrpcBackend.GrpcControllers
             }
             catch (Exception ex)
             {
-                return new GetStudentResponse
+                return new SharedGRPC.GetStudentResponse
                 {
                     Error = $"{ex.Message}"
                 };

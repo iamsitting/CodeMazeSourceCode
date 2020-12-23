@@ -1,5 +1,6 @@
 using AutoMapper;
 using SharedLibrary.Data;
+using SharedLibrary.Rest;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
