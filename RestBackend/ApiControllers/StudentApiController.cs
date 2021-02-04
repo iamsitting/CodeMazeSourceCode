@@ -1,8 +1,6 @@
 using AutoMapper;
 using SharedLibrary.Data;
-using SharedLibrary.Rest;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
@@ -19,21 +17,13 @@ namespace RestBackend.ApiControllers
             _students = students;
             _mapper = mapper;
         }
-        [HttpPost]
-        public async Task<IActionResult> GetById(RequestBody requestBody)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(string id)
         {
             try
             {
-                if (!String.IsNullOrEmpty(requestBody.Id))
-                {
-                    var student = await _students.GetByIdWithCoursesAsync(requestBody.Id);
-                    var response = _mapper.Map<Student>(student);
-                    return Ok(response);
-                }
-                else
-                {
-                    return BadRequest("ID is null or empty");
-                }
+                var student = await _students.GetByIdWithCoursesAsync(id);
+                return Ok(student);
             }
             catch (Exception ex)
             {

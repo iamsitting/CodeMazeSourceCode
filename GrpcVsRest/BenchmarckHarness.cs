@@ -1,6 +1,4 @@
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Configs;
-using BenchmarkDotNet.Validators;
 using System.Threading.Tasks;
 namespace GrpcVsRest
 {
@@ -10,15 +8,15 @@ namespace GrpcVsRest
         [Params(100, 200)]
         public int IterationCount;
 
-        readonly RestClient restClient = new RestClient();
-        readonly GrpcClient grpcClient = new GrpcClient();
+        private readonly RestClient _restClient = new RestClient();
+        private readonly GrpcClient _grpcClient = new GrpcClient();
 
         [Benchmark]
         public async Task RestGetSmallPayloadAsync()
         {
             for(int i = 0; i < IterationCount; i++)
             {
-                await restClient.GetSmallPayloadAsync();
+                await _restClient.GetSmallPayloadAsync();
             }
         }
         [Benchmark]
@@ -26,7 +24,7 @@ namespace GrpcVsRest
         {
             for(int i = 0; i < IterationCount; i++)
             {
-                await grpcClient.GetSmallPayloadAsync();
+                await _grpcClient.GetSmallPayloadAsync();
             }
         }
     }

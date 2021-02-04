@@ -1,6 +1,7 @@
 using Grpc.Core;
 using Grpc.Net.Client;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using SharedLibrary.Grpc;
 
@@ -19,13 +20,11 @@ namespace GrpcVsRest
             client = new StudentService.StudentServiceClient(channel);
         }
 
-        public async Task<Student> GetSmallPayloadAsync()
+        public async Task<StudentDto> GetSmallPayloadAsync()
         {
-            // return (await client.GetVersionAsync(new EmptyRequest())).ApiVersion;
             return (await client.GetStudentAsync(
-                    new GetStudentRequest (){Id = "5fe3a38292267c002b8a376c"}
+                    new GetStudentRequestDto (){Id = "5eeffdd1a28671a6e62dbda2" }
                 )).Student;
         }
-
     }
 }
